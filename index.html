@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Saturn Executor</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+            flex-direction: column;
+            background-color: black; /* Fallback if the galaxy image is not loaded */
+        }
+
+        .stars {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            opacity: 0;
+            animation: twinkle 3s infinite, moveStars 5s linear infinite;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0; transform: scale(0.5); }
+            50% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(0.5); }
+        }
+
+        @keyframes moveStars {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(100vh); }
+        }
+
+        .logo {
+            width: 100px; /* Adjust as needed */
+            height: auto;
+            margin-bottom: 20px;
+        }
+
+        .typing-container {
+            font-size: 3rem;
+            color: white;
+            text-transform: uppercase;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: 3px solid white;
+            width: fit-content;
+            margin-bottom: 20px;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 20px;
+        }
+
+        /* Download Button */
+        .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 30px; /* Increased padding for a larger button */
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    text-transform: uppercase;
+    font-size: 1.4rem; /* Increased font size */
+    font-weight: bold;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    border-radius: 8px; /* Slightly rounded corners */
+    text-decoration: none;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s, box-shadow 0.3s, border 0.3s;
+}
+
+.button:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    transform: translateY(-3px);
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
+}
+
+.button svg {
+    margin-right: 10px; /* Add spacing between icon and text */
+    width: 20px; /* Ensure icon size is consistent */
+    height: 20px; /* Ensure icon size is consistent */
+}
+    </style>
+</head>
+<body>
+    <div class="stars"></div>
+    <img src="New Project (8).jpg" alt="Logo" class="logo"> <!-- Replace 'your-logo.png' with your actual logo path -->
+    <div class="typing-container" id="typing-text"></div>
+    <div class="button-container">
+        <a href="Download.html" class="button">
+            <span></span>Download
+        </a>
+        <a href="https://dsc.gg/getsaturn" class="button" target="_blank">
+            Contact Us
+        </a>
+    </div>
+
+    <footer>made by kiko</footer>
+
+    <script>
+        const text = "Saturn Executor";
+        const typingContainer = document.getElementById("typing-text");
+        let index = 0;
+
+        function typeEffect() {
+            typingContainer.textContent = text.substring(0, index);
+            
+            if (index < text.length) {
+                index++;
+                setTimeout(typeEffect, 150); // Slower typing speed
+            }
+        }
+
+        typeEffect();
+
+        const starsContainer = document.querySelector('.stars');
+        for (let i = 0; i < 400; i++) { // Increased number of falling stars
+            let star = document.createElement('div');
+            star.className = 'star';
+            star.style.top = Math.random() * 100 + 'vh';
+            star.style.left = Math.random() * 100 + 'vw';
+            star.style.animationDelay = Math.random() * 3 + 's';
+            star.style.animationDuration = (Math.random() * 3 + 3) + 's'; // Faster falling stars
+            starsContainer.appendChild(star);
+        }
+    </script>
+</body>
+</html>
