@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Saturn Executor</title>
+    <style>
+        /* General Styles */
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            overflow-y: auto;
+            overflow-x: hidden;
+            position: relative;
+            flex-direction: column;
+            background-color: black; /* Fallback if the galaxy image is not loaded */
+        }
+
+        .stars {
+    position: fixed; /* Ensures stars cover the full page */
+    width: 100%;
+    height: 100vh; /* Initially set to viewport height */
+    top: 0;
+    left: 0;
+    pointer-events: none;
+}
+
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            opacity: 0;
+            animation: twinkle 3s infinite, moveStars 5s linear infinite;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0; transform: scale(0.5); }
+            50% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(0.5); }
+        }
+
+        @keyframes moveStars {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(100vh); }
+        }
+
+        /* Typing Effect */
+        .typing-container {
+            font-size: 3rem;
+            color: white;
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            z-index: 10;
+            text-transform: uppercase;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: 3px solid white;
+            width: fit-content;
+            margin-bottom: 20px;
+        }
+
+
+          /* Exit Button */
+          .exit-button {
+        position: fixed;
+        top: 15px;
+        right: 15px;
+        width: 50px;
+        height: 50px;
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        cursor: pointer;
+        z-index: 1000; /* Ensures it stays on top */
+        transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    .exit-button:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: translateY(-3px);
+    }
+
+    .exit-button svg {
+        width: 24px;
+        height: 24px;
+        stroke: rgba(255, 255, 255, 0.8);
+    }
+
+/* Cards Container (Moves to Left) */
+.cards-container {
+    display: flex;
+    flex-direction: row; /* Stacks cards vertically */
+    gap: 20px; /* Space between cards */
+    position: absolute;
+    left: 300px; /* Moves to the left side */
+    top: 100px; /* Adjust this to align properly */
+}
+
+/* Card Styling */
+.card {
+    background: rgba(28, 28, 30, 0.8);
+    color: white;
+    padding: 20px 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    width: 320px;
+    height: auto;
+    text-align: left;
+    position: relative;
+}
+
+.card .icon {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 20px;
+  border-radius: 5px; /* Optional: Rounded corners for the image */
+}
+
+.card .icon2 {
+  width: 100px; /* Smaller size for the second card's image */
+  height: auto; /* Maintain aspect ratio */
+}
+
+/* Title */
+.card h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    margin: 0;
+    margin-bottom: 10px;
+}
+
+/* Status Badge */
+.badge {
+    background: #00c853;
+    color: white;
+    font-size: 0.8rem;
+    font-weight: bold;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    padding: 5px 10px;
+    border-radius: 10px;
+    display: inline-block;
+    position: absolute;
+    top: 50px;
+    right: 20px;
+}
+
+.new-badge {
+    background: #9b59b6; /* Purple color */
+    color: white;
+    font-size: 0.8rem;
+    font-weight: bold;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    padding: 5px 10px;
+    border-radius: 10px;
+    display: inline-block;
+    position: absolute;
+    top: 10px; /* Positioned slightly above the Safe badge */
+    right: 20px;
+    z-index: 1;
+}
+
+
+
+/* Features List */
+.features {
+    list-style: none;
+    padding: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    margin: 15px 0;
+}
+
+.features li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.features li .dot {
+    width: 8px;
+    height: 8px;
+    background: #00c853;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+/* Download Button */
+.download-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 30px; /* Increased padding for a larger button */
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    text-transform: uppercase;
+    font-size: 1.4rem; /* Increased font size */
+    font-weight: bold;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    border-radius: 8px; /* Slightly rounded corners */
+    text-decoration: none;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s, box-shadow 0.3s, border 0.3s;
+}
+
+.download-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    transform: translateY(-3px);
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
+}
+
+.download-btn svg {
+    margin-right: 10px; /* Add spacing between icon and text */
+    width: 20px; /* Ensure icon size is consistent */
+    height: 20px; /* Ensure icon size is consistent */
+}
+
+
+    </style>
+</head>
+<body>
+    <div class="stars"></div>
+    <div class="typing-container" id="typing-text"></div>
+</div>
+
+</div>
+   <!-- Cards Container -->
+<div class="cards-container">
+    <!-- First Card -->
+    <div class="card">
+        <div class="icon"><img src="New_Project__8_-removebg-preview.png" alt=""></div>
+        <h2>Saturn Executor</h2>
+        <div class="badge new-badge">New</div>
+        <div class="badge">Safe</div>
+        <ul class="features">
+            <li><span class="dot"></span>80% UNC & 41% SUNC</li>
+            <li><span class="dot"></span>CZK API</li>
+            <li><span class="dot"></span>Completely Free</li>
+        </ul>
+        <div class="download-btn-container">
+            <a href="your-download-link" class="download-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 16l4-4h-3V4h-2v8H8l4 4zM5 18h14v2H5z"/>
+                </svg>
+                Download
+            </a>
+        </div>
+    </div>
+
+    <!-- Second Card -->
+    <div class="card">
+        <div class="icon2"><img src="logoserverhis-removebg-preview (1).png" alt=""></div>
+        <h2>Ethelza</h2>
+        <div class="badge new-badge">New</div>
+        <div class="badge">Safe</div>
+        <ul class="features">
+            <li><span class="dot"></span>80% UNC & 41% SUNC</li>
+            <li><span class="dot"></span>CZK API</li>
+            <li><span class="dot"></span>Completely Free</li>
+        </ul>
+        <div class="download-btn-container">
+            <a href="your-download-link" class="download-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 16l4-4h-3V4h-2v8H8l4 4zM5 18h14v2H5z"/>
+                </svg>
+                Download
+            </a>
+        </div>
+    </div>
+</div>
+
+
+        <a href="index.html" class="exit-button">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="24" height="24">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 8 16 12 12 16"></polyline>
+                <line x1="8" y1="12" x2="16" y2="12"></line>
+            </svg>
+        </a>
+        
+
+    <script>
+        
+        const text = "Download";
+        const typingContainer = document.getElementById("typing-text");
+        let index = 0;
+
+        function typeEffect() {
+            typingContainer.textContent = text.substring(0, index);
+            
+            if (index < text.length) {
+                index++;
+                setTimeout(typeEffect, 150); // Slower typing speed
+            }
+        }
+
+        typeEffect();
+        const starsContainer = document.querySelector('.stars');
+
+function createStars() {
+    starsContainer.innerHTML = ''; // Clear old stars
+    const pageHeight = Math.max(
+        document.body.scrollHeight, 
+        document.documentElement.scrollHeight, 
+        document.body.offsetHeight, 
+        document.documentElement.offsetHeight
+    ); // Get the tallest value
+
+    for (let i = 0; i < 400; i++) { // Number of stars
+        let star = document.createElement('div');
+        star.className = 'star';
+        star.style.top = Math.random() * pageHeight + 'px'; // Full page height
+        star.style.left = Math.random() * 100 + 'vw';
+        star.style.animationDelay = Math.random() * 3 + 's';
+        star.style.animationDuration = (Math.random() * 3 + 3) + 's'; // Faster falling stars
+        starsContainer.appendChild(star);
+    }
+}
+
+// Run when the page loads
+window.addEventListener('load', createStars);
+// Update stars if the window resizes
+window.addEventListener('resize', createStars);
+    </script>
+</body>
+</html>
