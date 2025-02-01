@@ -1,0 +1,33 @@
+.button-container {
+    display: flex;
+    gap: 20px;
+}
+
+.button {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    color: white;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none; /* This removes the underline */
+    position: relative; /* For positioning the glow effect */
+}
+
+.button:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.8); /* Glow effect */
+}
+
+.download-btn-container {
+    display: flex; /* Use Flexbox for centering */
+    justify-content: center; /* Horizontal centering */
+    align-items: center; /* Vertical centering */
+    margin-top: 20px; /* Optional: Add spacing from other elements */
+}
+
